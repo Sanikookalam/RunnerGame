@@ -2,7 +2,6 @@ let doshman = true;
 function Hero(game, x, y) {
     Phaser.Sprite.call(this, game, x, y, 'hero');
     this.anchor.set(0.1, 0.8);
-    console.log(this);
     this.game.physics.enable(this);
     this.body.collideWorldBounds = true;
 }
@@ -10,7 +9,7 @@ Hero.prototype = Object.create(Phaser.Sprite.prototype);
 Hero.prototype.constructor = Hero;
 Hero.prototype.move = function (direction) {
     const SPEED = 250;
-    this.body.velocity.x = direction * SPEED;
+    this.body.velocity.x = SPEED;
 };
 Hero.prototype.jump = function () {
     const JUMP_SPEED = 980;
@@ -133,6 +132,7 @@ PlayState.update = function () {
     this._handleInput();
     this.coinFont.text = `x${this.coinPickupCount}`;
     this.keyIcon.frame = this.hasKey ? 1 : 0;
+    console.log(this);
 };
 PlayState._handleCollisions = function () {
     this.game.physics.arcade.collide(this.spiders, this.platforms);
