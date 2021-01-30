@@ -1,7 +1,14 @@
+
+window.onload = function () {
+    let game = new Phaser.Game(9400, 660, Phaser.AUTO, 'game');
+    game.state.add('play', PlayState);
+    game.state.start('play');
+    new Camera('game',0 , 300,200, 500,500);
+};
 let doshman = true;
 function Hero(game, x, y) {
     Phaser.Sprite.call(this, game, x, y, 'hero');
-    this.anchor.set(0.1, 0.8);
+    this.anchor.set(-1, 0.8);
     this.game.physics.enable(this);
     this.body.collideWorldBounds = true;
 }
@@ -45,11 +52,9 @@ Spider.prototype.update = function () {
     // check against walls and reverse direction if necessary
     if (this.body.touching.right || this.body.blocked.right) {
         this.body.velocity.x = -Spider.SPEED; // turn left
-        console.log("zahra")
     }
     else if (this.body.touching.left || this.body.blocked.left) {
         this.body.velocity.x = Spider.SPEED; // turn right
-        console.log("زهرا")
         doshman = false;
     }
 };
@@ -126,13 +131,13 @@ PlayState.create = function () {
     this._loadLevel(this.game.cache.getJSON('level:1'));
     // crete hud with scoreboards)
     this._createHud();
+
 };
 PlayState.update = function () {
     this._handleCollisions();
     this._handleInput();
     this.coinFont.text = `x${this.coinPickupCount}`;
     this.keyIcon.frame = this.hasKey ? 1 : 0;
-    console.log(this);
 };
 PlayState._handleCollisions = function () {
     this.game.physics.arcade.collide(this.spiders, this.platforms);
@@ -277,9 +282,4 @@ PlayState._createHud = function () {
     this.hud.add(coinScoreImg);
     this.hud.add(this.keyIcon);
     this.hud.position.set(10, 10);
-};
-window.onload = function () {
-    let game = new Phaser.Game(9400, 660, Phaser.AUTO, 'game');
-    game.state.add('play', PlayState);
-    game.state.start('play');
 };
